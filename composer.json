@@ -1,13 +1,19 @@
 {
     "name": "lustmored/flysystem-v2-simple-cache-adapter",
     "description": "Simple flysystem PSR cache adapter decorator.",
+    "autoload": {
+        "psr-4": {
+            "Lustmored\\Flysystem\\Cache\\": "src/"
+        }
+    },
     "type": "library",
     "require": {
         "league/flysystem": "^2.0",
         "psr/cache": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.4"
+        "phpunit/phpunit": "^9.4",
+        "league/flysystem-adapter-test-utilities": "^2.0"
     },
     "license": "MIT",
     "authors": [

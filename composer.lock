@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "78bf74ada55463ec2eb253abe8866af4",
+    "content-hash": "7b7838709b1a93e6236f1c876a563b2e",
     "packages": [
         {
             "name": "league/flysystem",
@@ -264,6 +264,71 @@
                 }
             ],
             "time": "2020-11-10T18:47:58+00:00"
+        },
+        {
+            "name": "league/flysystem-adapter-test-utilities",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem-adapter-test-utilities.git",
+                "reference": "8e731fb089c0d0988ec0167eaa9aea34542a03e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-adapter-test-utilities/zipball/8e731fb089c0d0988ec0167eaa9aea34542a03e1",
+                "reference": "8e731fb089c0d0988ec0167eaa9aea34542a03e1",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "^2.0.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\AdapterTestUtilities\\": ""
+                },
+                "files": [
+                    "test-functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frankdejonge.nl"
+                }
+            ],
+            "description": "Flysystem utilities for testing adapters.",
+            "keywords": [
+                "Flysystem",
+                "adapter",
+                "filesystem",
+                "test",
+                "utilities"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/flysystem-adapter-test-utilities/issues",
+                "source": "https://github.com/thephpleague/flysystem-adapter-test-utilities/tree/2.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://offset.earth/frankdejonge",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/frankdejonge",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/league/flysystem",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-11-24T14:30:57+00:00"
         },
         {
             "name": "myclabs/deep-copy",
