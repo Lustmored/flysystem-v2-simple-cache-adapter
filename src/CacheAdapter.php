@@ -163,7 +163,7 @@ class CacheAdapter implements FilesystemAdapter
         if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
             if (null !== $metadata->getVisibility()) {
-                return new FileAttributes($path, null, $metadata->getVisibility());
+                return $metadata->buildFileAttributes($path);
             }
         } else {
             $metadata = $item->initialize()->getMetadata();
@@ -183,7 +183,7 @@ class CacheAdapter implements FilesystemAdapter
         if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
             if (null !== $metadata->getMimeType()) {
-                return new FileAttributes($path, null, null, null, $metadata->getMimeType());
+                return $metadata->buildFileAttributes($path);
             }
         } else {
             $metadata = $item->initialize()->getMetadata();
@@ -203,7 +203,7 @@ class CacheAdapter implements FilesystemAdapter
         if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
             if (null !== $metadata->getLastModified()) {
-                return new FileAttributes($path, null, null, $metadata->getLastModified());
+                return $metadata->buildFileAttributes($path);
             }
         } else {
             $metadata = $item->initialize()->getMetadata();
@@ -223,7 +223,7 @@ class CacheAdapter implements FilesystemAdapter
         if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
             if (null !== $metadata->getFileSize()) {
-                return new FileAttributes($path, null, null, $metadata->getFileSize());
+                return $metadata->buildFileAttributes($path);
             }
         } else {
             $metadata = $item->initialize()->getMetadata();

@@ -79,4 +79,14 @@ class FileMetadataCache
 
         return $this;
     }
+
+    public function buildFileAttributes(string $path): FileAttributes {
+        return new FileAttributes(
+            $path,
+            $this->fileSize,
+            $this->visibility,
+            $this->fileSize,
+            $this->mimeType
+        );
+    }
 }
