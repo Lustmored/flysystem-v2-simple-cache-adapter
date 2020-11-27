@@ -2,6 +2,8 @@
 
 namespace Lustmored\Flysystem\Cache;
 
+use League\Flysystem\FileAttributes;
+
 class FileMetadataCache
 {
     private ?int $lastModified = null;
@@ -53,6 +55,27 @@ class FileMetadataCache
     public function setVisibility(string $visibility): FileMetadataCache
     {
         $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    public function setFromFileAttributes(FileAttributes $fileAttributes): FileMetadataCache
+    {
+        if($lastModifier = $fileAttributes->lastModified()) {
+            $this->lastModified = $lastModifier;
+        }
+
+        if($mimeType = $fileAttributes->mimeType()) {
+            $this->mimeType = $mimeType;
+        }
+
+        if($fileSize = $fileAttributes->fileSize()) {
+            $this->fileSize = $fileSize;
+        }
+
+        if($visibility = $fileAttributes->visibility()) {
+            $this->visibility = $visibility;
+        }
 
         return $this;
     }

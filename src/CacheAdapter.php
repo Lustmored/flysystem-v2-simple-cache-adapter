@@ -171,7 +171,7 @@ class CacheAdapter implements FilesystemAdapter
 
         $fileAttributes = $this->adapter->visibility($path);
 
-        $metadata->setVisibility($fileAttributes->visibility());
+        $metadata->setFromFileAttributes($fileAttributes);
         $item->save();
 
         return $fileAttributes;
@@ -191,7 +191,7 @@ class CacheAdapter implements FilesystemAdapter
 
         $fileAttributes = $this->adapter->mimeType($path);
 
-        $metadata->setMimeType($fileAttributes->mimeType());
+        $metadata->setFromFileAttributes($fileAttributes);
         $item->save();
 
         return $fileAttributes;
@@ -211,7 +211,7 @@ class CacheAdapter implements FilesystemAdapter
 
         $fileAttributes = $this->adapter->lastModified($path);
 
-        $metadata->setLastModified($fileAttributes->lastModified());
+        $metadata->setFromFileAttributes($fileAttributes);
         $item->save();
 
         return $fileAttributes;
@@ -231,7 +231,7 @@ class CacheAdapter implements FilesystemAdapter
 
         $fileAttributes = $this->adapter->fileSize($path);
 
-        $metadata->setFileSize($fileAttributes->fileSize());
+        $metadata->setFromFileAttributes($fileAttributes);
         $item->save();
 
         return $fileAttributes;
