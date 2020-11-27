@@ -21,4 +21,4 @@ Please note this library is in early stages and cache format or functionality ma
 
 Idea is from `flysystem-cached-driver`, but cache logic is rethought. Instead of one big cache (that is killing memory when you have tens of thousands of files) it stores items on per-file basis.
 
-Therefore, there is no gain on `listContents` method, yet potential huge gains for `fileExists` and metadata-related methods (especially on network/cloud filesystems, like S3).
+Therefore, at least for now, there is no gain on `listContents` method, yet potential huge gains for `fileExists` and metadata-related methods (especially on network/cloud filesystems, like S3).
