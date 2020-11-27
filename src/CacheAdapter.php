@@ -152,10 +152,7 @@ class CacheAdapter implements FilesystemAdapter
     {
         $this->adapter->setVisibility($path, $visibility);
 
-        $item = $this->getItem($path);
-        if(!$item->exists()) {
-            $item->initialize();
-        }
+        $item = $this->getItem($path)->loadOrInitialize();
         $item->getMetadata()->setVisibility($visibility);
         $item->save();
     }
@@ -252,7 +249,7 @@ class CacheAdapter implements FilesystemAdapter
         $from = $this->getItem($source);
         if($from->exists()) {
             $to = $this->getItem($destination);
-            $to->initialize()->setMetadata($from->getMetadata())->save();
+            $to->initialize()->setMetadata($from->load()->getMetadata())->save();
             $from->delete();
         }
     }
@@ -264,7 +261,7 @@ class CacheAdapter implements FilesystemAdapter
         $from = $this->getItem($source);
         if($from->exists()) {
             $to = $this->getItem($destination);
-            $to->initialize()->setMetadata($from->getMetadata())->save();
+            $to->initialize()->setMetadata($from->load()->getMetadata())->save();
         }
     }
 }

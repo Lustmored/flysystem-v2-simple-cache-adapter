@@ -45,6 +45,14 @@ class FilesystemCacheItem {
         return $this;
     }
 
+    public function loadOrInitialize(): self{
+        if($this->exists()) {
+            return $this->load();
+        }
+
+        return $this->initialize();
+    }
+
     public function save(): self
     {
         $this->item->set($this->metadata);
