@@ -1,0 +1,19 @@
+{
+    "name": "lustmored/flysystem-v2-simple-cache-adapter",
+    "description": "Simple flysystem PSR cache adapter decorator.",
+    "type": "library",
+    "require": {
+        "league/flysystem": "^2.0",
+        "psr/cache": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.4"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jakub Caban",
+            "email": "kuba.iluvatar@gmail.com"
+        }
+    ]
+}
