@@ -6,6 +6,11 @@
             "Lustmored\\Flysystem\\Cache\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Lustmored\\Flysystem\\Cache\\": "tests"
+        }
+    },
     "type": "library",
     "require": {
         "php": "^7.4|^8.0",
