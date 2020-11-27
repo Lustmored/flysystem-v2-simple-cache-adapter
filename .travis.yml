@@ -1,0 +1,22 @@
+language: php
+dist: xenial
+sudo: false
+
+matrix:
+    include:
+        - php: 7.4
+        - php: 8.0
+    fast_finish: true
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+before_script:
+    - composer self-update
+    - composer install $COMPOSER_FLAGS --prefer-dist
+
+script:
+    - stty cols 120
+    - if [ "$CS_FIXER" == 1 ]; then wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.15.10/php-cs-fixer.phar && php php-cs-fixer.phar fix --dry-run --diff; fi
+    - php vendor/bin/phpunit
