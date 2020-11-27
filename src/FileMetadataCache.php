@@ -17,6 +17,7 @@ class FileMetadataCache
     public function setLastModified(int $lastModified): FileMetadataCache
     {
         $this->lastModified = $lastModified;
+
         return $this;
     }
 
@@ -28,6 +29,7 @@ class FileMetadataCache
     public function setMimeType(string $mimeType): FileMetadataCache
     {
         $this->mimeType = $mimeType;
+
         return $this;
     }
 
@@ -39,6 +41,7 @@ class FileMetadataCache
     public function setFileSize(int $fileSize): FileMetadataCache
     {
         $this->fileSize = $fileSize;
+
         return $this;
     }
 
@@ -50,6 +53,7 @@ class FileMetadataCache
     public function setVisibility(string $visibility): FileMetadataCache
     {
         $this->visibility = $visibility;
+
         return $this;
     }
 }

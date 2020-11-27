@@ -6,7 +6,8 @@ use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
 
-class FilesystemCacheItem {
+class FilesystemCacheItem
+{
     private CacheItemPoolInterface $cachePool;
     private CacheItemInterface $item;
     private string $path;
@@ -16,7 +17,7 @@ class FilesystemCacheItem {
         CacheItemPoolInterface $cachePool,
         CacheItemInterface $item,
         string $path
-    ){
+    ) {
         $this->cachePool = $cachePool;
         $this->item = $item;
         $this->path = $path;
@@ -26,7 +27,7 @@ class FilesystemCacheItem {
     {
         try {
             return $this->cachePool->hasItem($this->item->getKey());
-        }catch (InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException $exception) {
             throw InvalidCacheItemException::withPathAndKey($this->path, $this->item->getKey());
         }
     }
@@ -45,8 +46,9 @@ class FilesystemCacheItem {
         return $this;
     }
 
-    public function loadOrInitialize(): self{
-        if($this->exists()) {
+    public function loadOrInitialize(): self
+    {
+        if ($this->exists()) {
             return $this->load();
         }
 
@@ -57,6 +59,7 @@ class FilesystemCacheItem {
     {
         $this->item->set($this->metadata);
         $this->cachePool->save($this->item);
+
         return $this;
     }
 
@@ -64,17 +67,19 @@ class FilesystemCacheItem {
     {
         try {
             $this->cachePool->deleteItem($this->item->getKey());
-        }catch (InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException $exception) {
             throw InvalidCacheItemException::withPathAndKey($this->path, $this->item->getKey());
         }
 
         return $this;
     }
 
-    public function getMetadata(): FileMetadataCache {
-        if(!isset($this->metadata)) {
+    public function getMetadata(): FileMetadataCache
+    {
+        if (!isset($this->metadata)) {
             throw InvalidCacheItemException::uninitialized();
         }
+
         return $this->metadata;
     }
 

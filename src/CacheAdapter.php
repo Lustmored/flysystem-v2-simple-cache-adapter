@@ -19,7 +19,6 @@ class CacheAdapter implements FilesystemAdapter
         FilesystemAdapter $adapter,
         CacheItemPoolInterface $cachePool
     ) {
-
         $this->adapter = $adapter;
         $this->cachePool = $cachePool;
     }
@@ -27,7 +26,7 @@ class CacheAdapter implements FilesystemAdapter
     private function getItem(string $path): FilesystemCacheItem
     {
         $key = sha1($path);
-        try{
+        try {
             return new FilesystemCacheItem(
                 $this->cachePool,
                 $this->cachePool->getItem($key),
@@ -41,13 +40,14 @@ class CacheAdapter implements FilesystemAdapter
     public function fileExists(string $path): bool
     {
         $item = $this->getItem($path);
-        if($item->exists()) {
+        if ($item->exists()) {
             return true;
         }
         $fileExists = $this->adapter->fileExists($path);
-        if($fileExists) {
+        if ($fileExists) {
             $item->initialize()->save();
         }
+
         return $fileExists;
     }
 
@@ -80,16 +80,16 @@ class CacheAdapter implements FilesystemAdapter
     public function read(string $path): string
     {
         $item = $this->getItem($path);
-        try{
+        try {
             $contents = $this->adapter->read($path);
 
-            if(!$item->exists()) {
+            if (!$item->exists()) {
                 $item->initialize()->save();
             }
 
             return $contents;
-        } catch(UnableToReadFile $exception) {
-            if($item->exists()) {
+        } catch (UnableToReadFile $exception) {
+            if ($item->exists()) {
                 $item->delete();
             }
 
@@ -100,16 +100,16 @@ class CacheAdapter implements FilesystemAdapter
     public function readStream(string $path)
     {
         $item = $this->getItem($path);
-        try{
+        try {
             $contents = $this->adapter->readStream($path);
 
-            if(!$item->exists()) {
+            if (!$item->exists()) {
                 $item->initialize()->save();
             }
 
             return $contents;
-        } catch(UnableToReadFile $exception) {
-            if($item->exists()) {
+        } catch (UnableToReadFile $exception) {
+            if ($item->exists()) {
                 $item->delete();
             }
 
@@ -122,7 +122,7 @@ class CacheAdapter implements FilesystemAdapter
         $this->adapter->delete($path);
 
         $item = $this->getItem($path);
-        if($item->exists()) {
+        if ($item->exists()) {
             $item->delete();
         }
     }
@@ -132,7 +132,7 @@ class CacheAdapter implements FilesystemAdapter
         $contents = $this->adapter->listContents($path, true);
         /** @var StorageAttributes $storageAttributes */
         foreach ($contents as $storageAttributes) {
-            if($storageAttributes->isFile()) {
+            if ($storageAttributes->isFile()) {
                 $item = $this->getItem($storageAttributes->path());
                 if ($item->exists()) {
                     $item->delete();
@@ -160,9 +160,9 @@ class CacheAdapter implements FilesystemAdapter
     public function visibility(string $path): FileAttributes
     {
         $item = $this->getItem($path);
-        if($item->exists()) {
+        if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
-            if(null !== $metadata->getVisibility()) {
+            if (null !== $metadata->getVisibility()) {
                 return new FileAttributes($path, null, $metadata->getVisibility());
             }
         } else {
@@ -180,9 +180,9 @@ class CacheAdapter implements FilesystemAdapter
     public function mimeType(string $path): FileAttributes
     {
         $item = $this->getItem($path);
-        if($item->exists()) {
+        if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
-            if(null !== $metadata->getMimeType()) {
+            if (null !== $metadata->getMimeType()) {
                 return new FileAttributes($path, null, null, null, $metadata->getMimeType());
             }
         } else {
@@ -200,10 +200,10 @@ class CacheAdapter implements FilesystemAdapter
     public function lastModified(string $path): FileAttributes
     {
         $item = $this->getItem($path);
-        if($item->exists()) {
+        if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
-            if(null !== $metadata->getLastModified()) {
-                return new FileAttributes($path, null, null,$metadata->getLastModified());
+            if (null !== $metadata->getLastModified()) {
+                return new FileAttributes($path, null, null, $metadata->getLastModified());
             }
         } else {
             $metadata = $item->initialize()->getMetadata();
@@ -220,10 +220,10 @@ class CacheAdapter implements FilesystemAdapter
     public function fileSize(string $path): FileAttributes
     {
         $item = $this->getItem($path);
-        if($item->exists()) {
+        if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
-            if(null !== $metadata->getFileSize()) {
-                return new FileAttributes($path, null, null,$metadata->getFileSize());
+            if (null !== $metadata->getFileSize()) {
+                return new FileAttributes($path, null, null, $metadata->getFileSize());
             }
         } else {
             $metadata = $item->initialize()->getMetadata();
@@ -247,7 +247,7 @@ class CacheAdapter implements FilesystemAdapter
         $this->adapter->move($source, $destination, $config);
 
         $from = $this->getItem($source);
-        if($from->exists()) {
+        if ($from->exists()) {
             $to = $this->getItem($destination);
             $to->initialize()->setMetadata($from->load()->getMetadata())->save();
             $from->delete();
@@ -259,7 +259,7 @@ class CacheAdapter implements FilesystemAdapter
         $this->adapter->copy($source, $destination, $config);
 
         $from = $this->getItem($source);
-        if($from->exists()) {
+        if ($from->exists()) {
             $to = $this->getItem($destination);
             $to->initialize()->setMetadata($from->load()->getMetadata())->save();
         }

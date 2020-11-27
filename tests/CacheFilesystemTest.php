@@ -10,7 +10,6 @@ use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class CacheFilesystemTest extends FilesystemAdapterTestCase
 {
-
     protected static function createFilesystemAdapter(): FilesystemAdapter
     {
         $pool = new ArrayAdapter();
