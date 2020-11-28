@@ -85,7 +85,7 @@ class FileMetadataCache
             $path,
             $this->fileSize,
             $this->visibility,
-            $this->fileSize,
+            $this->lastModified,
             $this->mimeType
         );
     }
