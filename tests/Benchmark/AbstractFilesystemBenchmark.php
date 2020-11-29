@@ -12,9 +12,9 @@ use PhpBench\Benchmark\Metadata\Annotations\AfterMethods;
 use PhpBench\Benchmark\Metadata\Annotations\Iterations;
 
 /**
- * @AfterMethods({"removeFiles"})
+ * @AfterMethods({"removeFiles", "cleanup"})
  * @BeforeMethods({"init", "initFiles"})
- * @Iterations(5)
+ * @Iterations(1)
  */
 abstract class AbstractFilesystemBenchmark
 {
@@ -36,6 +36,10 @@ abstract class AbstractFilesystemBenchmark
         for ($i = 0; $i < 100; ++$i) {
             $this->fileSystem->write("{$this->dir}/{$i}.txt", sha1($this->dir.$i));
         }
+    }
+
+    public function cleanup(): void
+    {
     }
 
     public function removeFiles(): void
@@ -85,7 +89,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomDelete(): void
     {
         $this->runMultipleRandomized(
-            1000,
+            100,
             199,
             fn ($path) => $this->fileSystem->delete($path)
         );
@@ -94,7 +98,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomFileExists(): void
     {
         $this->runMultipleRandomized(
-            1000,
+            100,
             199,
             fn ($path) => $this->fileSystem->fileExists($path)
         );
@@ -103,7 +107,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomFileSize(): void
     {
         $this->runMultipleRandomized(
-            1000,
+            100,
             99,
             fn ($path) => $this->fileSystem->fileSize($path)
         );
@@ -112,7 +116,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomLastModified(): void
     {
         $this->runMultipleRandomized(
-            1000,
+            100,
             99,
             fn ($path) => $this->fileSystem->lastModified($path)
         );
@@ -121,7 +125,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomMimeType(): void
     {
         $this->runMultipleRandomized(
-            1000,
+            100,
             99,
             fn ($path) => $this->fileSystem->mimeType($path)
         );
@@ -130,7 +134,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomRead(): void
     {
         $this->runMultipleRandomized(
-            1000,
+            100,
             99,
             fn ($path) => $this->fileSystem->read($path)
         );
@@ -139,7 +143,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomSetVisibility(): void
     {
         $this->runMultipleRandomized(
-            1000,
+            100,
             99,
             fn ($path) => $this->fileSystem->setVisibility(
                 $path,
@@ -151,7 +155,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomVisibility(): void
     {
         $this->runMultipleRandomized(
-            1000,
+            100,
             99,
             fn ($path) => $this->fileSystem->visibility($path)
         );
@@ -160,7 +164,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomWrite(): void
     {
         $this->runMultipleRandomized(
-            1000,
+            100,
             99,
             fn ($path, $i) => $this->fileSystem->write($path, "overwrite{$i}")
         );

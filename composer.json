@@ -23,7 +23,9 @@
         "league/flysystem-memory": "^2.0",
         "symfony/cache": "^5.1",
         "phpbench/phpbench": "^0.17.1",
-        "ext-redis": "*"
+        "ext-redis": "*",
+        "league/flysystem-aws-s3-v3": "^2.0",
+        "symfony/dotenv": "^5.1"
     },
     "license": "MIT",
     "authors": [
