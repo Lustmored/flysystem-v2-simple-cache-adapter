@@ -21,7 +21,8 @@
         "phpunit/phpunit": "^9.4",
         "league/flysystem-adapter-test-utilities": "^2.0",
         "league/flysystem-memory": "^2.0",
-        "symfony/cache": "^5.1"
+        "symfony/cache": "^5.1",
+        "phpbench/phpbench": "^0.17.1"
     },
     "license": "MIT",
     "authors": [
