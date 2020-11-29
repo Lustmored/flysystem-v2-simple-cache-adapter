@@ -23,7 +23,7 @@ class CacheAdapter implements FilesystemAdapter
         $this->cachePool = $cachePool;
     }
 
-    private function getItem(string $path): FilesystemCacheItem
+    private function getCacheItem(string $path): FilesystemCacheItem
     {
         $key = sha1($path);
         try {
@@ -39,7 +39,7 @@ class CacheAdapter implements FilesystemAdapter
 
     public function fileExists(string $path): bool
     {
-        $item = $this->getItem($path);
+        $item = $this->getCacheItem($path);
         if ($item->exists()) {
             return true;
         }
@@ -55,7 +55,7 @@ class CacheAdapter implements FilesystemAdapter
     {
         $this->adapter->write($path, $contents, $config);
 
-        $item = $this->getItem($path)->initialize();
+        $item = $this->getCacheItem($path)->initialize();
         $metadata = $item->getMetadata();
         $metadata->setLastModified(time());
         if ($visibility = $config->get(Config::OPTION_VISIBILITY)) {
@@ -68,7 +68,7 @@ class CacheAdapter implements FilesystemAdapter
     {
         $this->adapter->writeStream($path, $contents, $config);
 
-        $item = $this->getItem($path)->initialize();
+        $item = $this->getCacheItem($path)->initialize();
         $metadata = $item->getMetadata();
         $metadata->setLastModified(time());
         if ($visibility = $config->get(Config::OPTION_VISIBILITY)) {
@@ -79,7 +79,7 @@ class CacheAdapter implements FilesystemAdapter
 
     public function read(string $path): string
     {
-        $item = $this->getItem($path);
+        $item = $this->getCacheItem($path);
         try {
             $contents = $this->adapter->read($path);
 
@@ -99,7 +99,7 @@ class CacheAdapter implements FilesystemAdapter
 
     public function readStream(string $path)
     {
-        $item = $this->getItem($path);
+        $item = $this->getCacheItem($path);
         try {
             $contents = $this->adapter->readStream($path);
 
@@ -121,7 +121,7 @@ class CacheAdapter implements FilesystemAdapter
     {
         $this->adapter->delete($path);
 
-        $item = $this->getItem($path);
+        $item = $this->getCacheItem($path);
         if ($item->exists()) {
             $item->delete();
         }
@@ -132,7 +132,7 @@ class CacheAdapter implements FilesystemAdapter
         /** @var StorageAttributes $storageAttributes */
         foreach ($this->adapter->listContents($path, true) as $storageAttributes) {
             if ($storageAttributes->isFile()) {
-                $item = $this->getItem($storageAttributes->path());
+                $item = $this->getCacheItem($storageAttributes->path());
                 if ($item->exists()) {
                     $item->delete();
                 }
@@ -151,14 +151,14 @@ class CacheAdapter implements FilesystemAdapter
     {
         $this->adapter->setVisibility($path, $visibility);
 
-        $item = $this->getItem($path)->loadOrInitialize();
+        $item = $this->getCacheItem($path)->loadOrInitialize();
         $item->getMetadata()->setVisibility($visibility);
         $item->save();
     }
 
     public function visibility(string $path): FileAttributes
     {
-        $item = $this->getItem($path);
+        $item = $this->getCacheItem($path);
         if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
             if (null !== $metadata->getVisibility()) {
@@ -178,7 +178,7 @@ class CacheAdapter implements FilesystemAdapter
 
     public function mimeType(string $path): FileAttributes
     {
-        $item = $this->getItem($path);
+        $item = $this->getCacheItem($path);
         if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
             if (null !== $metadata->getMimeType()) {
@@ -198,7 +198,7 @@ class CacheAdapter implements FilesystemAdapter
 
     public function lastModified(string $path): FileAttributes
     {
-        $item = $this->getItem($path);
+        $item = $this->getCacheItem($path);
         if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
             if (null !== $metadata->getLastModified()) {
@@ -218,7 +218,7 @@ class CacheAdapter implements FilesystemAdapter
 
     public function fileSize(string $path): FileAttributes
     {
-        $item = $this->getItem($path);
+        $item = $this->getCacheItem($path);
         if ($item->exists()) {
             $metadata = $item->load()->getMetadata();
             if (null !== $metadata->getFileSize()) {
@@ -241,7 +241,7 @@ class CacheAdapter implements FilesystemAdapter
         /** @var StorageAttributes|FileAttributes $storageAttributes */
         foreach ($this->adapter->listContents($path, $deep) as $storageAttributes) {
             if ($storageAttributes->isFile()) {
-                $item = $this->getItem($storageAttributes->path())->loadOrInitialize();
+                $item = $this->getCacheItem($storageAttributes->path())->loadOrInitialize();
                 $item->getMetadata()->setFromFileAttributes($storageAttributes);
                 $item->save();
             }
@@ -254,9 +254,9 @@ class CacheAdapter implements FilesystemAdapter
     {
         $this->adapter->move($source, $destination, $config);
 
-        $from = $this->getItem($source);
+        $from = $this->getCacheItem($source);
         if ($from->exists()) {
-            $to = $this->getItem($destination);
+            $to = $this->getCacheItem($destination);
             $to->initialize()->setMetadata($from->load()->getMetadata())->save();
             $from->delete();
         }
@@ -266,9 +266,9 @@ class CacheAdapter implements FilesystemAdapter
     {
         $this->adapter->copy($source, $destination, $config);
 
-        $from = $this->getItem($source);
+        $from = $this->getCacheItem($source);
         if ($from->exists()) {
-            $to = $this->getItem($destination);
+            $to = $this->getCacheItem($destination);
             $to->initialize()->setMetadata($from->load()->getMetadata())->save();
         }
     }
