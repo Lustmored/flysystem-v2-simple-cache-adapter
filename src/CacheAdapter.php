@@ -129,9 +129,8 @@ class CacheAdapter implements FilesystemAdapter
 
     public function deleteDirectory(string $path): void
     {
-        $contents = $this->adapter->listContents($path, true);
         /** @var StorageAttributes $storageAttributes */
-        foreach ($contents as $storageAttributes) {
+        foreach ($this->adapter->listContents($path, true) as $storageAttributes) {
             if ($storageAttributes->isFile()) {
                 $item = $this->getItem($storageAttributes->path());
                 if ($item->exists()) {
@@ -239,7 +238,16 @@ class CacheAdapter implements FilesystemAdapter
 
     public function listContents(string $path, bool $deep): iterable
     {
-        return $this->adapter->listContents($path, $deep);
+        /** @var StorageAttributes|FileAttributes $storageAttributes */
+        foreach ($this->adapter->listContents($path, $deep) as $storageAttributes) {
+            if ($storageAttributes->isFile()) {
+                $item = $this->getItem($storageAttributes->path())->loadOrInitialize();
+                $item->getMetadata()->setFromFileAttributes($storageAttributes);
+                $item->save();
+            }
+
+            yield $storageAttributes;
+        }
     }
 
     public function move(string $source, string $destination, Config $config): void
