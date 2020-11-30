@@ -12,8 +12,9 @@ use PhpBench\Benchmark\Metadata\Annotations\AfterMethods;
 use PhpBench\Benchmark\Metadata\Annotations\Iterations;
 
 /**
- * @AfterMethods({"removeFiles", "cleanup"})
- * @BeforeMethods({"init", "initFiles"})
+ * @BeforeClassMethods({"initFiles"})
+ * @AfterMethods({"cleanup"})
+ * @BeforeMethods({"init"})
  * @Iterations(1)
  */
 abstract class AbstractFilesystemBenchmark
@@ -26,15 +27,17 @@ abstract class AbstractFilesystemBenchmark
     public function init(): void
     {
         $this->fileSystem = new Filesystem(static::createFilesystemAdapter());
+        $this->dir = "bench";
     }
 
-    public function initFiles(): void
+    public static function initFiles(): void
     {
-        $this->dir = uniqid('bench', true);
-
-        $this->fileSystem->createDirectory($this->dir);
+        $filesystem = new Filesystem(static::createFilesystemAdapter());
+        $filesystem->createDirectory("bench");
         for ($i = 0; $i < 100; ++$i) {
-            $this->fileSystem->write("{$this->dir}/{$i}.txt", sha1($this->dir.$i));
+            if(!$filesystem->fileExists("bench/{$i}.txt")) {
+                $filesystem->write("bench/{$i}.txt", sha1("bench".$i));
+            }
         }
     }
 
@@ -61,11 +64,16 @@ abstract class AbstractFilesystemBenchmark
         }
     }
 
-    public function benchCopy(): void
+    public function benchCopyAndDelete(): void
     {
         for ($i = 0; $i < 99; ++$i) {
             $this->fileSystem->copy(
                 "{$this->dir}/{$i}.txt",
+                "{$this->dir}/".($i + 100).'.txt'
+            );
+        }
+        for ($i = 0; $i < 99; ++$i) {
+            $this->fileSystem->delete(
                 "{$this->dir}/".($i + 100).'.txt'
             );
         }
@@ -78,21 +86,18 @@ abstract class AbstractFilesystemBenchmark
 
     public function benchMove(): void
     {
-        for ($i = 0; $i < 199; ++$i) {
+        for ($i = 0; $i < 100; ++$i) {
             $this->fileSystem->move(
                 "{$this->dir}/{$i}.txt",
                 "{$this->dir}/".($i + 100).'.txt'
             );
         }
-    }
-
-    public function benchRandomDelete(): void
-    {
-        $this->runMultipleRandomized(
-            100,
-            199,
-            fn ($path) => $this->fileSystem->delete($path)
-        );
+        for ($i = 0; $i < 100; ++$i) {
+            $this->fileSystem->move(
+                "{$this->dir}/".($i + 100).'.txt',
+                "{$this->dir}/{$i}.txt"
+            );
+        }
     }
 
     public function benchRandomFileExists(): void

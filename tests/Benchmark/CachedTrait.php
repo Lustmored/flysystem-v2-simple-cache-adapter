@@ -22,6 +22,13 @@ trait CachedTrait
         return new CacheAdapter(parent::createFilesystemAdapter(), self::$pool);
     }
 
+    public function init(): void
+    {
+        parent::init();
+
+        $this->benchListContents();
+    }
+
     public function cleanup(): void
     {
         self::$pool->clear();
