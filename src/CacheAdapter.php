@@ -25,7 +25,7 @@ class CacheAdapter implements FilesystemAdapter
 
     private function getCacheItem(string $path): FilesystemCacheItem
     {
-        $key = sha1($path);
+        $key = hash('md4', $path);
         try {
             return new FilesystemCacheItem(
                 $this->cachePool,
