@@ -9,13 +9,11 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\Visibility;
 use PhpBench\Benchmark\Metadata\Annotations\AfterMethods;
-use PhpBench\Benchmark\Metadata\Annotations\Iterations;
 
 /**
  * @BeforeClassMethods({"initFiles"})
  * @AfterMethods({"cleanup"})
  * @BeforeMethods({"init"})
- * @Iterations(1)
  */
 abstract class AbstractFilesystemBenchmark
 {
@@ -27,16 +25,16 @@ abstract class AbstractFilesystemBenchmark
     public function init(): void
     {
         $this->fileSystem = new Filesystem(static::createFilesystemAdapter());
-        $this->dir = "bench";
+        $this->dir = 'bench';
     }
 
     public static function initFiles(): void
     {
         $filesystem = new Filesystem(static::createFilesystemAdapter());
-        $filesystem->createDirectory("bench");
+        $filesystem->createDirectory('bench');
         for ($i = 0; $i < 100; ++$i) {
-            if(!$filesystem->fileExists("bench/{$i}.txt")) {
-                $filesystem->write("bench/{$i}.txt", sha1("bench".$i));
+            if (!$filesystem->fileExists("bench/{$i}.txt")) {
+                $filesystem->write("bench/{$i}.txt", sha1('bench'.$i));
             }
         }
     }

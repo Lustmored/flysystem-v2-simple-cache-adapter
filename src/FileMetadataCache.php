@@ -61,26 +61,27 @@ class FileMetadataCache
 
     public function setFromFileAttributes(FileAttributes $fileAttributes): FileMetadataCache
     {
-        if($lastModifier = $fileAttributes->lastModified()) {
+        if ($lastModifier = $fileAttributes->lastModified()) {
             $this->lastModified = $lastModifier;
         }
 
-        if($mimeType = $fileAttributes->mimeType()) {
+        if ($mimeType = $fileAttributes->mimeType()) {
             $this->mimeType = $mimeType;
         }
 
-        if($fileSize = $fileAttributes->fileSize()) {
+        if ($fileSize = $fileAttributes->fileSize()) {
             $this->fileSize = $fileSize;
         }
 
-        if($visibility = $fileAttributes->visibility()) {
+        if ($visibility = $fileAttributes->visibility()) {
             $this->visibility = $visibility;
         }
 
         return $this;
     }
 
-    public function buildFileAttributes(string $path): FileAttributes {
+    public function buildFileAttributes(string $path): FileAttributes
+    {
         return new FileAttributes(
             $path,
             $this->fileSize,
