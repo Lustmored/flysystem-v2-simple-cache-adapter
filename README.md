@@ -27,7 +27,7 @@ Therefore, at least for now, there is no gain on `listContents` method, yet pote
 
 Benchmarks run with Redis in Docker (via provided `docker-compose.yml`). S3 benchmarks require setting environment vars (for example by providing `.env.bench.local`). Cached benchmarks have cache warmed by calling `listContents`.
 
-Below are reports from single benchmark run on devel machine as of 0.0.4. They show that caching metadata with the local adapter makes no sense, while using it for S3 brings potential huge benefits when querying existing files.
+Below are reports from single benchmark run on devel machine as of 0.0.4. They show that caching metadata with the local adapter makes no sense, while using it for S3 brings potential huge benefits when querying existing files. `fileExists` benchmark randomly queries files with about 50% of them existing.
 
 | benchmark        | subject                  | set | revs | iter | mem_peak    | time_rev         | comp_z_value | comp_deviation |
 |------------------|--------------------------|-----|------|------|-------------|------------------|--------------|----------------|
