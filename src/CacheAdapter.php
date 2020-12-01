@@ -14,6 +14,7 @@ class CacheAdapter implements FilesystemAdapter
 {
     private FilesystemAdapter $adapter;
     private CacheItemPoolInterface $cachePool;
+    private array $cacheItems = [];
 
     public function __construct(
         FilesystemAdapter $adapter,
@@ -25,9 +26,13 @@ class CacheAdapter implements FilesystemAdapter
 
     private function getCacheItem(string $path): FilesystemCacheItem
     {
+        if (isset($this->cacheItems[$path])) {
+            return $this->cacheItems[$path];
+        }
+
         $key = hash('md4', $path);
         try {
-            return new FilesystemCacheItem(
+            return $this->cacheItems[$path] = new FilesystemCacheItem(
                 $this->cachePool,
                 $this->cachePool->getItem($key),
                 $path
