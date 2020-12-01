@@ -101,7 +101,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomFileExists(): void
     {
         $this->runMultipleRandomized(
-            100,
+            1000,
             199,
             fn ($path) => $this->fileSystem->fileExists($path)
         );
@@ -110,7 +110,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomFileSize(): void
     {
         $this->runMultipleRandomized(
-            100,
+            1000,
             99,
             fn ($path) => $this->fileSystem->fileSize($path)
         );
@@ -119,7 +119,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomLastModified(): void
     {
         $this->runMultipleRandomized(
-            100,
+            1000,
             99,
             fn ($path) => $this->fileSystem->lastModified($path)
         );
@@ -128,7 +128,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomMimeType(): void
     {
         $this->runMultipleRandomized(
-            100,
+            1000,
             99,
             fn ($path) => $this->fileSystem->mimeType($path)
         );
@@ -158,7 +158,7 @@ abstract class AbstractFilesystemBenchmark
     public function benchRandomVisibility(): void
     {
         $this->runMultipleRandomized(
-            100,
+            1000,
             99,
             fn ($path) => $this->fileSystem->visibility($path)
         );
