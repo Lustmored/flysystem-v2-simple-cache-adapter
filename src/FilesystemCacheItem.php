@@ -12,6 +12,7 @@ class FilesystemCacheItem
     private CacheItemInterface $item;
     private string $path;
     private ?FileMetadataCache $metadata;
+    private bool $isHit;
 
     public function __construct(
         CacheItemPoolInterface $cachePool,
@@ -21,15 +22,12 @@ class FilesystemCacheItem
         $this->cachePool = $cachePool;
         $this->item = $item;
         $this->path = $path;
+        $this->isHit = $item->isHit();
     }
 
     public function exists(): bool
     {
-        try {
-            return $this->cachePool->hasItem($this->item->getKey());
-        } catch (InvalidArgumentException $exception) {
-            throw InvalidCacheItemException::withPathAndKey($this->path, $this->item->getKey());
-        }
+        return $this->isHit;
     }
 
     public function initialize(): self
@@ -59,6 +57,7 @@ class FilesystemCacheItem
     {
         $this->item->set($this->metadata);
         $this->cachePool->save($this->item);
+        $this->isHit = true;
 
         return $this;
     }
@@ -67,6 +66,7 @@ class FilesystemCacheItem
     {
         try {
             $this->cachePool->deleteItem($this->item->getKey());
+            $this->isHit = false;
         } catch (InvalidArgumentException $exception) {
             throw InvalidCacheItemException::withPathAndKey($this->path, $this->item->getKey());
         }
@@ -77,7 +77,7 @@ class FilesystemCacheItem
     public function getMetadata(): FileMetadataCache
     {
         if (!isset($this->metadata)) {
-            throw InvalidCacheItemException::uninitialized();
+            $this->loadOrInitialize();
         }
 
         return $this->metadata;

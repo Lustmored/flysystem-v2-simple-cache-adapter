@@ -17,9 +17,4 @@ class InvalidCacheItemException extends RuntimeException implements FilesystemEx
             )
         );
     }
-
-    public static function uninitialized(): self
-    {
-        return new self('Uninitialized cache item');
-    }
 }
