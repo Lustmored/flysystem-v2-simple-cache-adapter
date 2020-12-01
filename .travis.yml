@@ -14,7 +14,7 @@ cache:
 
 before_script:
     - composer self-update
-    - composer install $COMPOSER_FLAGS --prefer-dist
+    - composer install $COMPOSER_FLAGS --prefer-dist --ignore-platform-reqs
 
 script:
     - stty cols 120
