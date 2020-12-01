@@ -67,6 +67,7 @@ class FilesystemCacheItem
         try {
             $this->cachePool->deleteItem($this->item->getKey());
             $this->isHit = false;
+            unset($this->metadata);
         } catch (InvalidArgumentException $exception) {
             throw InvalidCacheItemException::withPathAndKey($this->path, $this->item->getKey());
         }
