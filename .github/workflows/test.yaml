@@ -1,0 +1,43 @@
+name: flysystem-v2-simple-cache-adapter
+
+on:
+    pull_request:
+    push:
+    workflow_dispatch:
+
+jobs:
+    coding-style:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
+            - name: php-cs-fixer
+              run: |
+                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.16.4/php-cs-fixer.phar -q
+                  php php-cs-fixer.phar fix --dry-run --diff
+
+    tests-php-7-2:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.2'
+            - name: PHPUnit
+              run: |
+                  composer install --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/phpunit
+
+    tests-php-7-4:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
+            - name: PHPUnit
+              run: |
+                  composer install --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/phpunit
