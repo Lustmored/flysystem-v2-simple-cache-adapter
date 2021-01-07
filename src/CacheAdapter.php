@@ -12,9 +12,12 @@ use Psr\Cache\InvalidArgumentException;
 
 class CacheAdapter implements FilesystemAdapter
 {
-    private FilesystemAdapter $adapter;
-    private CacheItemPoolInterface $cachePool;
-    private array $cacheItems = [];
+    /** @var FilesystemAdapter */
+    private $adapter;
+    /** @var CacheItemPoolInterface */
+    private $cachePool;
+    /** @var array */
+    private $cacheItems = [];
 
     public function __construct(
         FilesystemAdapter $adapter,

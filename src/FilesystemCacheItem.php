@@ -8,11 +8,16 @@ use Psr\Cache\InvalidArgumentException;
 
 class FilesystemCacheItem
 {
-    private CacheItemPoolInterface $cachePool;
-    private CacheItemInterface $item;
-    private string $path;
-    private ?FileMetadataCache $metadata;
-    private bool $isHit;
+    /** @var CacheItemPoolInterface */
+    private $cachePool;
+    /** @var CacheItemInterface */
+    private $item;
+    /** @var string */
+    private $path;
+    /** @var FileMetadataCache|null */
+    private $metadata;
+    /** @var bool */
+    private $isHit;
 
     public function __construct(
         CacheItemPoolInterface $cachePool,

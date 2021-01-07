@@ -6,10 +6,14 @@ use League\Flysystem\FileAttributes;
 
 class FileMetadataCache
 {
-    private ?int $lastModified = null;
-    private ?string $mimeType = null;
-    private ?int $fileSize = null;
-    private ?string $visibility = null;
+    /** @var int|null */
+    private $lastModified = null;
+    /** @var string|null */
+    private $mimeType = null;
+    /** @var int|null */
+    private $fileSize = null;
+    /** @var string|null */
+    private $visibility = null;
 
     public function getLastModified(): ?int
     {

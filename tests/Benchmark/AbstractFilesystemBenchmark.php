@@ -17,8 +17,10 @@ use PhpBench\Benchmark\Metadata\Annotations\AfterMethods;
  */
 abstract class AbstractFilesystemBenchmark
 {
-    protected Filesystem $fileSystem;
-    protected string $dir;
+    /** @var Filesystem */
+    protected $fileSystem;
+    /** @var string */
+    protected $dir;
 
     abstract protected static function createFilesystemAdapter(): FilesystemAdapter;
 
@@ -103,7 +105,7 @@ abstract class AbstractFilesystemBenchmark
         $this->runMultipleRandomized(
             1000,
             199,
-            fn ($path) => $this->fileSystem->fileExists($path)
+            function ($path) { return $this->fileSystem->fileExists($path); }
         );
     }
 
@@ -112,7 +114,7 @@ abstract class AbstractFilesystemBenchmark
         $this->runMultipleRandomized(
             1000,
             99,
-            fn ($path) => $this->fileSystem->fileSize($path)
+            function ($path) { return $this->fileSystem->fileSize($path); }
         );
     }
 
@@ -121,7 +123,7 @@ abstract class AbstractFilesystemBenchmark
         $this->runMultipleRandomized(
             1000,
             99,
-            fn ($path) => $this->fileSystem->lastModified($path)
+            function ($path) { return $this->fileSystem->lastModified($path); }
         );
     }
 
@@ -130,7 +132,7 @@ abstract class AbstractFilesystemBenchmark
         $this->runMultipleRandomized(
             1000,
             99,
-            fn ($path) => $this->fileSystem->mimeType($path)
+            function ($path) { return $this->fileSystem->mimeType($path); }
         );
     }
 
@@ -139,7 +141,7 @@ abstract class AbstractFilesystemBenchmark
         $this->runMultipleRandomized(
             100,
             99,
-            fn ($path) => $this->fileSystem->read($path)
+            function ($path) { return $this->fileSystem->read($path); }
         );
     }
 
@@ -148,10 +150,12 @@ abstract class AbstractFilesystemBenchmark
         $this->runMultipleRandomized(
             100,
             99,
-            fn ($path) => $this->fileSystem->setVisibility(
-                $path,
-                Visibility::PUBLIC
-            )
+            function ($path) {
+                $this->fileSystem->setVisibility(
+                    $path,
+                    Visibility::PUBLIC
+                );
+            }
         );
     }
 
@@ -160,7 +164,7 @@ abstract class AbstractFilesystemBenchmark
         $this->runMultipleRandomized(
             1000,
             99,
-            fn ($path) => $this->fileSystem->visibility($path)
+            function ($path) { return $this->fileSystem->visibility($path); }
         );
     }
 
@@ -169,7 +173,9 @@ abstract class AbstractFilesystemBenchmark
         $this->runMultipleRandomized(
             100,
             99,
-            fn ($path, $i) => $this->fileSystem->write($path, "overwrite{$i}")
+            function ($path, $i) {
+                $this->fileSystem->write($path, "overwrite{$i}");
+            }
         );
     }
 }
