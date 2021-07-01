@@ -15,6 +15,43 @@ CacheAdapter takes simply 2 parameters:
 * `$adapter` - Filesystem adapter to be decorated
 * `$cachePool` - PSR-6 compliant cache pool object
 
+Example configuration in Symfony with `flysystem-bundle` (thanks to @weaverryan for summarizing things up):
+
+[OPTIONAL] Create Cache pool to use:
+```yaml
+# config/packages/cache.yaml
+framework:
+    cache:
+        pools:
+            cache.flysystem.psr6:
+                adapter: cache.app
+```
+
+Configure service. Here `@flysystem.adapter.uploads_adapter` is Flysystem adapter (based on `flysystem-bundle` configuration for `uploads_adapter` storage):
+```yaml
+# config/services.yaml
+services:
+    # ...
+
+    flysystem.cache.adapter:
+        class: Lustmored\Flysystem\Cache\CacheAdapter
+        arguments:
+            $adapter: '@flysystem.adapter.uploads_adapter'
+            $cachePool: '@cache.flysystem.psr6'
+```
+
+Finally, wire it up into `flysytem-bundle`:
+```yaml
+# config/packages/flysystem.yaml
+flysystem:
+    storages:
+        # ... your other storages
+
+        cached_public_uploads_storage:
+            # point this at your service id from above
+            adapter: 'flysystem.cache.adapter'
+```
+
 # Architecture
 
 Please note this library is in early stages and cache format or functionality may change. I've created it for my own project and needs.
