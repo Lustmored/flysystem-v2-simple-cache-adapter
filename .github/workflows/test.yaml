@@ -15,8 +15,8 @@ jobs:
                   php-version: '7.4'
             - name: php-cs-fixer
               run: |
-                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.16.4/php-cs-fixer.phar -q
-                  php php-cs-fixer.phar fix --dry-run --diff
+                  composer install --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/php-cs-fixer fix --dry-run --diff
 
     tests-php-7-4:
         runs-on: ubuntu-latest
