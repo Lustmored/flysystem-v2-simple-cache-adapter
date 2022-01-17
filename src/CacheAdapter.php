@@ -59,6 +59,11 @@ class CacheAdapter implements FilesystemAdapter
         return $fileExists;
     }
 
+    public function directoryExists(string $path): bool
+    {
+        return $this->adapter->directoryExists($path);
+    }
+
     public function write(string $path, string $contents, Config $config): void
     {
         $this->adapter->write($path, $contents, $config);
@@ -67,7 +72,7 @@ class CacheAdapter implements FilesystemAdapter
         $metadata = $item->getMetadata();
         $metadata->setLastModified(time());
         if ($visibility = $config->get(Config::OPTION_VISIBILITY)) {
-            $metadata->setVisibility($config->get(Config::OPTION_VISIBILITY));
+            $metadata->setVisibility($visibility);
         }
         $item->save();
     }
@@ -80,7 +85,7 @@ class CacheAdapter implements FilesystemAdapter
         $metadata = $item->getMetadata();
         $metadata->setLastModified(time());
         if ($visibility = $config->get(Config::OPTION_VISIBILITY)) {
-            $metadata->setVisibility($config->get(Config::OPTION_VISIBILITY));
+            $metadata->setVisibility($visibility);
         }
         $item->save();
     }
