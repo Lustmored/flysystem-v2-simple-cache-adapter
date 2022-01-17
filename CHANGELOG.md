@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [0.3.0] - 2022-01-17
+
+### Added
+- Allow `league/flysystem` v3
+
 ## [0.2.0] - 2021-07-01
 
 ### Changed
