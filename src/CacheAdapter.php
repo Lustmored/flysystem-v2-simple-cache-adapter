@@ -47,7 +47,7 @@ class CacheAdapter implements FilesystemAdapter
 
     public function fileExists(string $path): bool
     {
-        $fileExists = $this->adapter->fileExists($path);
+        return $this->adapter->fileExists($path);
     }
 
     public function directoryExists(string $path): bool
