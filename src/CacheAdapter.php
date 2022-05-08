@@ -49,7 +49,7 @@ class CacheAdapter implements FilesystemAdapter
     {
         $item = $this->getCacheItem($path);
         if ($item->exists()) {
-            return true;
+            return $item->load();
         }
         $fileExists = $this->adapter->fileExists($path);
         if ($fileExists) {
