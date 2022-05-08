@@ -47,16 +47,7 @@ class CacheAdapter implements FilesystemAdapter
 
     public function fileExists(string $path): bool
     {
-        $item = $this->getCacheItem($path);
-        if ($item->exists()) {
-            return true;
-        }
         $fileExists = $this->adapter->fileExists($path);
-        if ($fileExists) {
-            $item->initialize()->save();
-        }
-
-        return $fileExists;
     }
 
     public function directoryExists(string $path): bool
